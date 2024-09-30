@@ -1,10 +1,10 @@
 import httpx
-from typing import List, Dict, Union
+from typing import List
 from app.models import Item, FullItem
 
 BASE_API_URL = "https://api.mercadolibre.com"
 
-async def fetch_item_data(items: List[Item]) -> List[FullItem]:
+async def fetch_items_data(items: List[Item]) -> List[FullItem]:
     async with httpx.AsyncClient() as client:
         full_items = []
         for item in items:

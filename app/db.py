@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List
-from models import FullItem
+from app.models import FullItem
 
 client = AsyncIOMotorClient("mongodb://localhost:27017")
 db = client['mercado_libre_db']

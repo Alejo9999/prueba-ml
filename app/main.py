@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, HTTPException
-from db import save_to_db
-from ml_api import fetch_items_data
+from app.db import save_to_db
+from app.ml_api import fetch_items_data
 
 app = FastAPI()
     

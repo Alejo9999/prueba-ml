@@ -3,7 +3,7 @@ from fastapi import UploadFile
 import csv
 import json
 from app.config import CONFIG
-from models import Item
+from app.models import Item
 
 
 async def read_file(file: UploadFile) -> List[Item]:
