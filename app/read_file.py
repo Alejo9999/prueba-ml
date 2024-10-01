@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List
 from fastapi import UploadFile
 import csv
 import json
@@ -15,9 +15,9 @@ async def read_file(file: UploadFile) -> List[Item]:
     elif file.filename.endswith('.txt'):
         return await txt_reader(file)
     elif file.filename.endswith('.json'):
-        return print("Tipo de archivo no soportado")
+        raise print("no se soporta json")
     else:
-        print("Tipo de archivo no soportado")
+        raise("Tipo de archivo no soportado")
 
 async def csv_reader(file: UploadFile) -> List[Item]:
     delimiter = CONFIG['csv']['delimiter']
@@ -26,9 +26,17 @@ async def csv_reader(file: UploadFile) -> List[Item]:
     content = await file.read()
     lines = content.decode(encoding).splitlines()
     reader = csv.reader(lines , delimiter=delimiter)
+    
+    next(reader, None)
+    
     for row in reader:
-        site, item_id = row[0].strip(), int(row[1].strip())
-        items.append({"site": site.strip(), "id": int(item_id.strip())})
+        try:
+            site = row[0].strip()
+            item_id = int(row[1].strip())
+            items.append(Item(site=site, id=item_id))
+        except ValueError:
+            print(f"Fila ignorada por valor incorrecto en 'id': {row}")
+            continue
     return items
 
 async def jsonlines_reader(file: UploadFile) -> List[Item]:

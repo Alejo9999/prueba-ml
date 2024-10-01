@@ -1,13 +1,13 @@
 from pydantic import BaseModel
-from typing import List
+from typing import Optional
 
 class Item(BaseModel):
     site: str
     id: int
 
 class FullItem(Item):
-    price: float
-    start_time: str
-    name: str
-    description: str
-    nickname: str
+    price: Optional[float] = None
+    start_time: Optional[str] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
+    nickname: Optional[str] = None
