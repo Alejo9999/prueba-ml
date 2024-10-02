@@ -1,43 +1,64 @@
-from typing import List
+from typing import List, AsyncGenerator
 from fastapi import UploadFile
-import csv
 import json
 from app.config import CONFIG
 from app.models import Item
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 async def read_file(file: UploadFile) -> List[Item]:
+    logger.info("Logger configurado correctamente")
 
     if file.filename.endswith('.csv'):
+        #logger.info("Leyendo archivo CSV")
         return await csv_reader(file)
     elif file.filename.endswith('.jsonl'):
+        #logger.info("Leyendo archivo JSONL")
         return await jsonlines_reader(file)
     elif file.filename.endswith('.txt'):
+        #logger.info("Leyendo archivo TXT")
         return await txt_reader(file)
     elif file.filename.endswith('.json'):
-        raise print("no se soporta json")
+        #logger.error("json no soportado")
+        raise ValueError("json no soportado")
     else:
         raise("Tipo de archivo no soportado")
 
-async def csv_reader(file: UploadFile) -> List[Item]:
+async def csv_reader(file: UploadFile, chunk_size: int = 100) -> AsyncGenerator[List[Item], None]:
     delimiter = CONFIG['csv']['delimiter']
     encoding = CONFIG['csv']['encoding']
-    items = []
-    content = await file.read()
-    lines = content.decode(encoding).splitlines()
-    reader = csv.reader(lines , delimiter=delimiter)
+  
+    items_chunk = []
+    first_line = True
     
-    next(reader, None)
+    while True:
+        line =  file.file.readline()
+        if not line:
+            break
     
-    for row in reader:
+        if first_line:
+            first_line = False
+            continue
+        
+        row = line.decode(encoding).strip().split(delimiter)
+        
         try:
             site = row[0].strip()
             item_id = int(row[1].strip())
-            items.append(Item(site=site, id=item_id))
+            items_chunk.append(Item(site=site, id=item_id))
+            
+            if len(items_chunk) >= chunk_size:
+                yield items_chunk
+                items_chunk = []
+                
         except ValueError:
-            print(f"Fila ignorada por valor incorrecto en 'id': {row}")
+            #logger.error(f"Fila ignorada por valor incorrecto en 'id': {row}")
             continue
-    return items
+    if items_chunk:
+        yield items_chunk
 
 async def jsonlines_reader(file: UploadFile) -> List[Item]:
     encoding = CONFIG['jsonlines']['encoding']
