@@ -1,49 +1,73 @@
-Proyecto de Servicio Web para Procesamiento de Archivos y Consultas a APIs de MercadoLibre
+# Proyecto de Servicio Web para Procesamiento de Archivos y Consultas a APIs de MercadoLibre
+
 Este proyecto consiste en un servicio web desarrollado con FastAPI que permite procesar archivos de diferentes formatos (CSV, JSONL, TXT) y consultar APIs públicas de MercadoLibre para obtener datos adicionales y almacenarlos en una base de datos.
 
-Características Principales
-Procesamiento de Archivos: Soporte para archivos en formatos csv, jsonl, y txt.
-Consulta a APIs de MercadoLibre: Realiza consultas a los endpoints públicos de MercadoLibre para obtener datos adicionales.
-Almacenamiento en Base de Datos: Los datos obtenidos del archivo y las consultas a las APIs se almacenan en una base de datos.
-Requisitos
-Software Necesario
-Python: Es necesario tener Python instalado.
-Docker: La aplicación se ejecuta con Docker, por lo que debes tener Docker y Docker Compose instalados en tu máquina.
-Dependencias de Python
-Las dependencias de Python están especificadas en el archivo requirements.txt. Si deseas instalarlas manualmente, puedes usar el siguiente comando:
+## Características Principales
 
-bash
-Copiar código
+- **Procesamiento de Archivos**: Soporte para archivos en formatos `csv`, `jsonl`, y `txt`.
+- **Consulta a APIs de MercadoLibre**: Realiza consultas a los endpoints públicos de MercadoLibre para obtener datos adicionales.
+- **Almacenamiento en Base de Datos**: Los datos obtenidos del archivo y las consultas a las APIs se almacenan en una base de datos.
+
+## Requisitos
+
+### Software Necesario
+
+- **Python**: Es necesario tener Python instalado.
+- **Docker**: La aplicación se ejecuta con Docker, por lo que debes tener Docker y Docker Compose instalados en tu máquina.
+
+### Dependencias de Python
+
+Las dependencias de Python están especificadas en el archivo `requirements.txt`. Si deseas instalarlas manualmente, puedes usar el siguiente comando:
+
+```sh
 pip install -r requirements.txt
+```
+
 Sin embargo, la recomendación es usar Docker para simplificar la instalación y ejecución.
 
-Ejecución del Proyecto con Docker
-Construir la Imagen Docker: Desde la raíz del proyecto, ejecuta el siguiente comando para construir la imagen de Docker:
+## Ejecución del Proyecto con Docker
 
-bash
-Copiar código
+### Construir la Imagen Docker
+
+Desde la raíz del proyecto, ejecuta el siguiente comando para construir la imagen de Docker:
+
+```sh
 docker-compose build
-Levantar los Contenedores: Una vez construida la imagen, levanta los contenedores de la aplicación y la base de datos con:
+```
 
-bash
-Copiar código
+## Levantar los Contenedores
+
+Una vez construida la imagen, levanta los contenedores de la aplicación y la base de datos con:
+
+```sh
 docker-compose up
-Acceso al Servicio: El servicio web estará disponible en http://localhost:8000.
+```
 
-Uso del Endpoint Principal
-El endpoint principal de la aplicación es:
+## Acceso al servicio
 
-POST /file: Permite subir un archivo en formato csv, jsonl, o txt para ser procesado. El archivo será leído, se consultarán las APIs de MercadoLibre para obtener información adicional, y los datos se almacenarán en la base de datos.
-Ejemplo de uso del endpoint con curl:
+El servicio web estará disponible en `http://localhost:8000`
 
-bash
-Copiar código
+## Uso del Endpoint principal
+
+El endpoint principal de la app es:
+
+- **POST** `/file`:
+
+Permite subir un archivo en `cvs`, `jsonl`, o `txt` para ser procesado. El archivo será leido, se consultarán
+las APIS de Mercado Libre para obtener información adicional, y los datos se almacenarán en la base de datos MongoDB.
+
+Ejemplo de uso del endpoint con `curl`:
+
+```sh
 curl -X POST "http://localhost:8000/file" -F "file=@path/to/your/file.csv"
-Estructura del Proyecto
-La estructura del proyecto sigue los principios SOLID para garantizar un código limpio y modular. La organización de las carpetas es la siguiente:
+```
 
-bash
-Copiar código
+## Estructura del proyecto
+
+La estructura del proyecto sigue los principios SOLID para garantizar un código limpio y modular. 
+La organización de las carpetas es la siguiente:
+
+```ssh
 app/
     ├── config/
     │   ├── __init__.py
