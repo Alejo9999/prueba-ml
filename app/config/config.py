@@ -4,7 +4,7 @@ CONFIG = {
         'encoding': 'utf-8'
     },
     'txt': {
-        'delimiter': ' ',
+        'delimiter': ',',
         'encoding': 'utf-8'
     },
     'jsonlines': {

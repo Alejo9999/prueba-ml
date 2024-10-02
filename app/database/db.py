@@ -1,7 +1,7 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List
-from app.models import FullItem
+from app.models.models import FullItem
 
 mongo_url = os.getenv('MONGO_URL', 'mongodb://mongo:27017')
 client = AsyncIOMotorClient(mongo_url)

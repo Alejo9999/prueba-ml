@@ -1,4 +1,4 @@
-from app.read_file import read_csv
+from app.file_reader.read_file import read_csv
 from io import StringIO
 
 def test_read_csv():
