@@ -1,7 +1,7 @@
 fastapi==0.95.2  
 uvicorn==0.22.0  
 httpx==0.23.3    
-pymongo    
+pymongo==4.3.3
 pydantic==1.10.2
-motor
-python-multipart
+motor==3.1.1
+python-multipart==0.0.5
