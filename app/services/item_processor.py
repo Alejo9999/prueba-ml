@@ -5,11 +5,11 @@ from app.services.ml_api import MeLiAPI  # Import the API client
 
 class ItemProcessor:
     def __init__(self, api_client: MeLiAPI):
-        # Use the API client to process items
+
         self.api_client = api_client
 
     async def process_item(self, item: Item) -> FullItem:
-        # Process individual item data
+
         item_data = await self.api_client.fetch_item(item.site, item.id)
         
         price = item_data.get('price')
@@ -33,7 +33,7 @@ class ItemProcessor:
         )
 
 async def fetch_items_data_concurrent(items: List[Item]) -> List[FullItem]:
-    # This will initialize the API client and process items concurrently
+
     api_client = MeLiAPI()
     item_processor = ItemProcessor(api_client)
     

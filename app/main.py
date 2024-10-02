@@ -17,24 +17,24 @@ async def process_file(file: UploadFile):
     total_items = 0
 
     try:
-        # Read and process file chunks
+
         async for items_chunk in read_file(file, chunk_size=chunk_size):
-            # Check that all items in the chunk are valid
+
             if not all(isinstance(item, Item) for item in items_chunk):
                 raise ValueError("items_chunk contiene un tipo de dato inválido.")
             
             print(f"Items leidos: {len(items_chunk)}")
             
-            # Fetch item data concurrently
+
             searched_items = await fetch_items_data_concurrent(items_chunk)
             print(f"Items obtenidos de API: {len(searched_items)}")
             
-            # Save processed items to the database
+
             await save_to_db(searched_items)
             total_items += len(searched_items)
 
     except Exception as err:
-        # Handle any exceptions that may occur
+
         raise HTTPException(status_code=500, detail=f"Error procesando el archivo: {str(err)}")
 
     return {"message": "Archivo procesado correctamente", "data": total_items}

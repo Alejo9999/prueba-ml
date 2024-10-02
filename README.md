@@ -64,7 +64,7 @@ curl -X POST "http://localhost:8000/file" -F "file=@path/to/your/file.csv"
 
 ## Estructura del proyecto
 
-La estructura del proyecto sigue los principios SOLID para garantizar un código limpio y modular. 
+La estructura del proyecto sigue los principios SOLID para garantizar un código limpio y modular.  
 La organización de las carpetas es la siguiente:
 
 ```ssh
